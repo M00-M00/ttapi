@@ -1,0 +1,14 @@
+NOTES:
+
+1) 2500 request per day are free - several accounts would be ok
+2) Max results per request = 100, however results in database number is given and all can be obtain by ofsetting the results with a step of 100
+(i.e. request1 = ofset is 0, results 0-100 are received, request2 ofset=100, results 100-200 are returned etc. until all results are saved)
+
+3) EVC details are only available if search is for EV,  therefore getting name of EVC stations that are located within a petrol station can be done by matchinh position of EVC & petrol station 
+
+4) Any search results can only be ofset by 2000 so if there are more than 2000 results, the the search should be made more specific to bring down total results equal or below 2000
+
+5) To search Nearby_POI of
+
+
+
