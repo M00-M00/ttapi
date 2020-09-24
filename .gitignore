@@ -6,3 +6,5 @@ uk_ev.csv
 uk_ev.json
 petrol_uk.csv
 object.xml
+/venv
+__pycache__
