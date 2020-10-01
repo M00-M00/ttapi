@@ -94,41 +94,38 @@ class PetrolTomTomApi():
 
 
 
-    def get_total_by_brand(self, brands: list):
+    def get_total_by_brand(self, brand: str):
         self.failed_brand_search = []
         self.total_by_brand = {}
-        for brand in brands:
-            ofset = 0
-            url =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.json?&countrySet={self.country}&categorySet={self.poiCode}&brandSet={brand}&ofs={ofset}&limit=100&key={self.key}"
-            search_request = self.s.get(url)
-            total = search_request.json()["summary"]["totalResults"]
-            self.total_by_brand[brand] = total
-            print(brand + ": " + str(total) + "pois")
-            for ofset in range(0, total, 100):
-                print(ofset)
-                url_petrol =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.json?&countrySet={self.country}&brandSet={brand}&categorySet={self.poiCode}&ofs={ofset}&limit=100&key={self.key}"
-                search_request = self.s.get(url_petrol)
-                time.sleep(1)
+        ofset = 0
+        url =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.json?&countrySet={self.country}&categorySet={self.poiCode}&brandSet={brand}&ofs={ofset}&limit=100&key={self.key}"
+        search_request = self.s.get(url)
+        total = search_request.json()["summary"]["totalResults"]
+        self.total_by_brand[brand] = total
+        print(brand + ": " + str(total) + "pois")
+        for ofset in range(0, total, 100):
+            print(ofset)
+            url_petrol =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.json?&countrySet={self.country}&brandSet={brand}&categorySet={self.poiCode}&ofs={ofset}&limit=100&key={self.key}"
+            search_request = self.s.get(url_petrol)
+            time.sleep(1)
+            try:
+                self.petrol_stations.extend(search_request.json()["results"])
+            except:
                 try:
+                    print("error at: " + str(ofset) + " trying again")
+                    time.sleep(1)
+                    search_request = self.s.get(url_petrol)
                     self.petrol_stations.extend(search_request.json()["results"])
                 except:
-                    try:
-                        print("error at: " + str(ofset) + " trying again")
-                        time.sleep(1)
-                        search_request = self.s.get(url_petrol)
-                        self.petrol_stations.extend(search_request.json()["results"])
-                    except:
-                        self.failed_brand_search.append(ofset)
-                        print("request " + str(ofset) + " failed, added to failed list")
+                    self.failed_brand_search.append(ofset)
+                    print("request " + str(ofset) + " failed, added to failed list")
         self.ids = [a["id"] for a in self.petrol_stations]
         self.results_dict = ds.list_to_dict_with_key(self.petrol_stations, "id")
-        if len(brands) == 1:
-            filename = str(brands[0]) + ".json"
-        else:
-            filename = str(self.country) + "_" "Petrol.json"
-        ds.save_json(filename, self.results_dict)
 
 
+
+    def load_results_dict_from_json(self,filename):
+        self.results_dict = ds.load_from_json(filename)
 
 
     def get_detailed_search_for_poi(self, id):
@@ -147,15 +144,20 @@ class PetrolTomTomApi():
 
 
     def search_all_nearbies(self, radius, ids):
+        n = 0
         for id in ids:
             self.search_nearby(id, radius)
-            time.sleep(0.5)
-        filename = str(self.country) + "_" + str(radius) +  "_Nearby_Petrol.json"
-        ds.save_json(filename, self.nearby_results)
+            time.sleep(0.5) 
+            if n % 50 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1
+
+
 
     
         
     def search_all_detailed(self, ids):
+        n = 0
         for id in ids:
             try:
                 self.get_detailed_search_for_poi(id)
@@ -167,8 +169,11 @@ class PetrolTomTomApi():
                 except:
                     print(str(id) + " parsing failed, adding to failed list")
                     self.failed_detailed_search_id.append(id)
-        filename = str(self.country) +  "_Detailed_Search.json"
-        ds.save_json(filename, self.detailed_results)
+            if n % 5 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1
+
+
         
 
 
@@ -197,7 +202,7 @@ class PetrolTomTomApi():
         nearby_results = ds.load_from_json(filename)
         return nearby_results
 
-            
+
 
 
             
