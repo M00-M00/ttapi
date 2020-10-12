@@ -5,6 +5,7 @@ import json
 class Categories_POI():
 
     def __init__(self):
+        self.s = requests.Session()
         self.key = "p9QAG7A754ZSfW21em3XPfDdfoaZls1x"
         self.base_url = "api.tomtom.com"
         self.categories_url = "https://" + self.base_url + "/search/2/poiCategories.json?key=" + self.key + "&[language=EN]"

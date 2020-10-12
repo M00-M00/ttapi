@@ -24,7 +24,7 @@ def append_dict_to_csv(filename, data):
 
 
 # Removes duplicates 
-def list_to_dict(string):
+def list_to_dict(list):
     result_dict = {}
     for n in string:
         result_dict[string.index(n)] = n
@@ -59,3 +59,7 @@ def load_from_json(filename):
         with open(filename) as j:
             json_data = json.load(j)
             return(json_data)
+
+def dictionary_from_dictionary_with_key(self, old_dict: dict, key: str) -> dict :
+    new_dict = dict( [ (old_dict[a][key] , old_dict[a]) for a in old_dict] )
+    return new_dict

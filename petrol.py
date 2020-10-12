@@ -3,7 +3,7 @@ import json
 import asyncio
 import time
 import data_structures as ds
-import xmltodict
+
 
 class PetrolTomTomApi():
 
