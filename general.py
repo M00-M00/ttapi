@@ -136,15 +136,20 @@ class TomTomApi():
         self.nearby_results[id]= request.json()
 
 
+
     def search_all_nearbies(self, radius, ids):
+        n = 0
         for id in ids:
             self.search_nearby(id, radius)
-            time.sleep(0.5)
-        ds.save_json("Nearby_Search.json", self.nearby_results)
+            time.sleep(0.5) 
+            if n % 50 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1
 
-    
+
         
     def search_all_detailed(self, ids):
+        n = 0
         for id in ids:
             try:
                 self.get_detailed_search_for_poi(id)
@@ -156,7 +161,54 @@ class TomTomApi():
                 except:
                     print(str(id) + " parsing failed, adding to failed list")
                     self.failed_detailed_search_id.append(id)
-        ds.save_json("Detailed_Search.json", self.detailed_results)
+            if n % 5 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1    
+            
+    def get_detailed_search_for_poi(self, id):
+            url = f"https://{self.base_url}/search/2/poiDetails.json?key={self.key}&id={id}"
+            search_requests = self.s.get(url)
+            self.detailed_results[id] = search_requests.json()
+
+
+    def search_nearby(self, id, radius):
+        lat = self.results_dict[id]["position"]["lat"]
+        lon = self.results_dict[id]["position"]["lon"]
+        url = f"https://{self.base_url}/search/2/nearbySearch/.json?key={self.key}&lat={lat}&lon={lon}&radius={radius}"
+        request = self.s.get(url)
+        self.nearby_results[id]= request.json()
+
+
+
+    def search_all_nearbies(self, radius, ids):
+        n = 0
+        for id in ids:
+            self.search_nearby(id, radius)
+            time.sleep(0.5) 
+            if n % 50 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1
+
+
+
+    
+        
+    def search_all_detailed(self, ids):
+        n = 0
+        for id in ids:
+            try:
+                self.get_detailed_search_for_poi(id)
+                time.sleep(1)
+            except:
+                try:
+                    self.get_detailed_search_for_poi(id)
+                    time.sleep(1)
+                except:
+                    print(str(id) + " parsing failed, adding to failed list")
+                    self.failed_detailed_search_id.append(id)
+            if n % 5 == 0:
+                print(f"Done {n} out of {len(self.results_dict)}")
+            n += 1
 
 
 

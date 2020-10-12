@@ -8,7 +8,10 @@ NOTES:
 
 4) Any search results can only be ofset by 2000 so if there are more than 2000 results, the the search should be made more specific to bring down total results equal or below 2000
 
-5) To search Nearby_POI of
+
+EV NOTES:
+
+8898 & 7654 are are used as tests
 
 
 
