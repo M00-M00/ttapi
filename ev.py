@@ -5,7 +5,6 @@ import time
 from datetime import datetime
 from general import TomTomApi
 import pandas as pd
-import requests
 import json
 import asyncio
 import time
@@ -189,10 +188,14 @@ class EV_Search(TomTomApi):
         self.availability_data[time_now] ={}
         availability_data = self.availability_data[time_now]
         for num in numbers:
-            charging_availability_id = self.results_dict[str(num)]["dataSources"]["chargingAvailability"]["id"]
-            url  = f"https://{self.base_url}/search/2/chargingAvailability.json?key={self.key}&chargingAvailability={charging_availability_id}"
-            search_request = self.s.get(url)
-            availability_data[num] = search_request.json()
+            try:
+                charging_availability_id = self.results_dict[str(num)]["dataSources"]["chargingAvailability"]["id"]
+                url  = f"https://{self.base_url}/search/2/chargingAvailability.json?key={self.key}&chargingAvailability={charging_availability_id}"
+                search_request = self.s.get(url)
+                availability_data[num] = search_request.json()
+            except KeyError:
+                print (f"No Charging Availability id for station with id {num}, moving to the next id")
+                continue
 
 
     
@@ -202,10 +205,14 @@ class EV_Search(TomTomApi):
         dictionary[time_now] ={}
         availability_data = dictionary[time_now]
         for num in numbers:
-            charging_availability_id = self.results_dict[str(num)]["dataSources"]["chargingAvailability"]["id"]
-            url  = f"https://{self.base_url}/search/2/chargingAvailability.json?key={self.key}&chargingAvailability={charging_availability_id}"
-            search_request = self.s.get(url)
-            availability_data[num] = search_request.json()
+            try:
+                charging_availability_id = self.results_dict[str(num)]["dataSources"]["chargingAvailability"]["id"]
+                url  = f"https://{self.base_url}/search/2/chargingAvailability.json?key={self.key}&chargingAvailability={charging_availability_id}"
+                search_request = self.s.get(url)
+                availability_data[num] = search_request.json()
+            except KeyError:
+                print (f"No Charging Availability id for station with id {num}, moving to the next id")
+                continue
         return dictionary
 
 
