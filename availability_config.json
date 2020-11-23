@@ -1,5 +1,5 @@
 {
-    "country" : "Norway",
+    "country" : "",
     "poi_codes" : 
         {
         "gas station": 7311, 
@@ -20,7 +20,7 @@
 
     "search_type" : "by_availability_ids",
 
-    "availability_ids" : ["d607b17a-770f-3956-3b8c-44c600153b86"],
+    "availability_ids" : ["47f8fe38-4937-34b1-90ab-e0f700153b86"],
 
     "availability_data_filename" : "Norway_ev_availability.json",
 
@@ -29,9 +29,9 @@
     "scheduled_hour" : "8-20",
 
 
-    "poi_results_filename" : "uk_ev.json",
+    "poi_results_filename" : "no_ev.json",
 
-    "index_keys" : [8898,7654]
+    "index_keys" : [0]
 
 
 
