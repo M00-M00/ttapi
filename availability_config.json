@@ -1,0 +1,38 @@
+{
+    "country" : "Norway",
+    "poi_codes" : 
+        {
+        "gas station": 7311, 
+        "ev station" : 7309
+        },
+    "poi_code" : 7309,
+    "query" : "station",
+    "data_type" : "json",
+    "keys":
+        {
+        "0" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
+        "1" : "p9QAG7A754ZSfW21em3XPfDdfoaZls1x"
+        },
+    "key" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
+
+    
+    "search_types" : ["by_availability_ids", "by_index_keys"],
+
+    "search_type" : "by_availability_ids",
+
+    "availability_ids" : ["d607b17a-770f-3956-3b8c-44c600153b86"],
+
+    "availability_data_filename" : "Norway_ev_availability.json",
+
+    "scheduled_days_of_week" : "mon-sun",
+    
+    "scheduled_hour" : "8-20",
+
+
+    "poi_results_filename" : "uk_ev.json",
+
+    "index_keys" : [8898,7654]
+
+
+
+}

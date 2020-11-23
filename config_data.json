@@ -1,0 +1,50 @@
+{
+    "country" : "UK",
+    "poi_codes" : 
+        {
+        "gas station": 7311, 
+        "ev station" : 7309
+        },
+    "poi_code" : 7309,
+    "query" : "station",
+    "data type" : "json",
+    "locations" : 
+        {
+         "0" :
+            {    
+            "lat" : "",
+            "lon" : "",
+            "radius" : ""
+             }
+        },
+    "keys" : 
+        {
+        "0" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
+        "1" : "p9QAG7A754ZSfW21em3XPfDdfoaZls1x"
+        },
+    "key" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
+
+
+
+    "availability_ids" : [""],
+
+    "availability_data_filename" : "Norway_ev_availability.json",
+
+    "scheduled_day_of_week" : "mon-sun",
+
+    "scheduled_hour" : "8-20",
+
+
+
+
+    "poi_results_dict" : "",
+
+    "index_keys" : [""],
+
+    "brands" : [""],
+
+    "poi_ids" : [""],
+
+    "nearby_radius" : ""
+
+}
