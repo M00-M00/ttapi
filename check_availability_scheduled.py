@@ -18,7 +18,7 @@ config = args.config
 
 api = TomTomApi(config)
 
-@sched.scheduled_job('cron', day_of_week=api.days_of_week, hour=api.hours)
+@sched.scheduled_job('cron', day_of_week=api.days_of_week, hour=api.hours, minute = "0, 15, 30, 45")
 def scheduled_job():
     if api.search_type == "by_index_keys":
         api.ev_availability_by_index(api.index_keys, api.availability_data_filename)
