@@ -14,4 +14,53 @@ EV NOTES:
 8898 & 7654 are are used as tests
 
 
+Norway available 
 
+FINE: 135, 777
+
+Norway - 2094 petrol stations - excclued 94
+
+
+Norway Tested Petrol:
+
+[
+'g6JpZNkkMGFmY2RlNGUtNGQzNS0zNDJmLThkZjktMzhmMDAwMTUzYjg2oWOjTk9SoXanVW5pZmllZA==',
+'g6JpZNkkNTY5ZDYyZjUtZTI2ZC0zOTU1LTNkNDMtYzRmMjAwMTUzYjg2oWOjTk9SoXanVW5pZmllZA==',
+'g6JpZNkkMDBjNzg3NGItNjYyNi0zYzZhLTI0MzktZDk1ZjAwMTUzYjg2oWOjTk9SoXanVW5pZmllZA==',
+'g6JpZNkkMDBjNzg3NGItNjYyNi0zYzZhLTI0MzktZDk1ZjAwMTUzYjg2oWOjTk9SoXanVW5pZmllZA=='
+]
+['0afcde4e-4d35-342f-8df9-38f000153b86', '569d62f5-e26d-3955-3d43-c4f200153b86', '00c7874b-6626-3c6a-2439-d95f00153b86', '00c7874b-6626-3c6a-2439-d95f00153b86']
+
+
+UK Tested Near Petrol stations:
+"g6JpZNkkY2VmY2NjZWQtMjkwNy0zNWZkLTZjZDgtNjE4ZDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==",
+
+
+{
+'g6JpZNkkY2VmY2NjZWQtMjkwNy0zNWZkLTZjZDgtNjE4ZDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==':
+{'id': 'g6JpZNkkY2VmY2NjZWQtMjkwNy0zNWZkLTZjZDgtNjE4ZDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==', 'type': 'IEC62196Type2Outlet', 'current_state': {'available': 2, 'occupied': 0, 'reserved': 0, 'unknown': 0, 'outOfService': 0}, 'charging_availability_id': 'cefccced-2907-35fd-6cd8-618d00153b86'}, 
+'g6JpZNkkYzhlYmI1NDMtZDQ5NS0zMjdiLWY4MzctOTdmMDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==':
+{'id': 'g6JpZNkkYzhlYmI1NDMtZDQ5NS0zMjdiLWY4MzctOTdmMDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==', 'type': 'IEC62196Type2Outlet', 'current_state': {'available': 2, 'occupied': 0, 'reserved': 0, 'unknown': 0, 'outOfService': 0}, 'charging_availability_id': 'c8ebb543-d495-327b-f837-97f000153b86'}, 
+'g6JpZNkkMjU3MzcyMDQtNDdjNi0zNzM5LTAzNjQtNmY1YzAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==':
+{'id': 'g6JpZNkkMjU3MzcyMDQtNDdjNi0zNzM5LTAzNjQtNmY1YzAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==', 'type': 'IEC62196Type2Outlet', 'current_state': {'available': 2, 'occupied': 0, 'reserved': 0, 'unknown': 0, 'outOfService': 0}, 'charging_availability_id': '25737204-47c6-3739-0364-6f5c00153b86'}  
+'g6JpZNkkOTQxMGMwMTAtNTVlMi0zZWRiLWFjNTItMTNlNDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==':
+{'id': 'g6JpZNkkOTQxMGMwMTAtNTVlMi0zZWRiLWFjNTItMTNlNDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==', 'type': 'IEC62196Type2Outlet', 'current_state': {'available': 1, 'occupied': 1, 'reserved': 0, 'unknown': 0, 'outOfService': 0}, 'charging_availability_id': '9410c010-55e2-3edb-ac52-13e400153b86'},
+g6JpZNkkOWM1ZWI0Y2QtNDg3Ni0zNjJlLTQxYjgtNzllMTAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==':
+{'id': 'g6JpZNkkOWM1ZWI0Y2QtNDg3Ni0zNjJlLTQxYjgtNzllMTAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==', 'type': 'IEC62196Type2Outlet', 'current_state': {'available': 1, 'occupied': 0, 'reserved': 0, 'unknown': 1, 'outOfService': 0}, 'charging_availability_id': '9c5eb4cd-4876-362e-41b8-79e100153b86'}
+}
+
+"cefccced-2907-35fd-6cd8-618d00153b86", "c8ebb543-d495-327b-f837-97f000153b86", "25737204-47c6-3739-0364-6f5c00153b86", "9410c010-55e2-3edb-ac52-13e400153b86", 
+
+
+[
+'g6JpZNkkY2VmY2NjZWQtMjkwNy0zNWZkLTZjZDgtNjE4ZDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==',
+'g6JpZNkkYzhlYmI1NDMtZDQ5NS0zMjdiLWY4MzctOTdmMDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==',
+'g6JpZNkkMjU3MzcyMDQtNDdjNi0zNzM5LTAzNjQtNmY1YzAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==',
+'g6JpZNkkOTQxMGMwMTAtNTVlMi0zZWRiLWFjNTItMTNlNDAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA==',
+'g6JpZNkkOWM1ZWI0Y2QtNDg3Ni0zNjJlLTQxYjgtNzllMTAwMTUzYjg2oWOjR0JSoXanVW5pZmllZA=='
+]
+
+
+
+
+]

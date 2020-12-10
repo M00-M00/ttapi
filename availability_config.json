@@ -8,15 +8,16 @@
     "poi_code" : 7309,
     "query" : "station",
     "data_type" : "json",
-    "keys":
+    "keys_options":
         {
         "0" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
         "1" : "p9QAG7A754ZSfW21em3XPfDdfoaZls1x"
         },
-    "key" : "BEAUFvC8jzPyPYNBotRrEIlaOi0fBRPo",
+    "key" : "XfgsUD7zm5dzxb97pUOzKWqGFTYi",
+    
 
     
-    "search_types" : ["by_availability_ids", "by_index_keys"],
+    "search_types_options" : ["by_availability_ids", "by_index_keys"],
 
     "search_type" : "by_availability_ids",
 
@@ -26,7 +27,7 @@
 
     "scheduled_days_of_week" : "mon-sun",
     
-    "scheduled_hour" : "8-20",
+    "scheduled_hours" : "8-20",
 
 
     "poi_results_filename" : "no_ev.json",

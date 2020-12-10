@@ -8,7 +8,15 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 sched = BlockingScheduler()
 
-api = TomTomApi("availability_config.json")
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-C" ,"--config", type =str)
+args = parser.parse_args()
+
+config = args.config
+
+api = TomTomApi(config)
 
 @sched.scheduled_job('cron', day_of_week=api.days_of_week, hour=api.hours)
 def scheduled_job():

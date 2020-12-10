@@ -26,6 +26,7 @@ class TomTomApi():
         self.poi_results = []
         self.availability_data = {}
 
+
         #self.poi_categories_json = self.s.get(self.categories_url).json()["poiCategories"]
 
         config = ds.load_from_json(config_file)
@@ -46,7 +47,7 @@ class TomTomApi():
 
         self.days_of_week = config["scheduled_days_of_week"]
 
-        self.hours = config["scheduled_hour"]
+        self.hours = config["scheduled_hours"]
 
         self.search_type = config["search_type"]
 
@@ -71,12 +72,13 @@ class TomTomApi():
         search_request = self.s.get(url_petrol)
         total_results = search_request.json()["summary"]["totalResults"]
         self.poi_results.extend(search_request.json()["results"])
+        return total_results
 
 
 
 
 
-    def get_results_poi(self,start):
+    def get_all_poi_results(self,start):
 
         ofset = 0
         url_petrol =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.{self.data_type}?&countrySet={self.country}&categorySet={self.poi_code}&ofs={ofset}&limit=100&key={self.key}"
@@ -96,6 +98,28 @@ class TomTomApi():
                 search_request = self.s.get(url_petrol)
                 time.sleep(0.5)
                 self.poi_results.extend(search_request.json()["results"])
+
+
+    def get_poi_results(self,start, stop):
+
+        ofset = 0
+        url_petrol =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.{self.data_type}?&countrySet={self.country}&categorySet={self.poi_code}&ofs={ofset}&limit=100&key={self.key}"
+        search_request = self.s.get(url_petrol)
+        self.poi_results.extend(search_request.json()["results"])
+
+        for ofset in range(start, stop, 100):
+            print(ofset)
+            url_petrol =  f"https://api.tomtom.com/search/2/categorySearch/{self.query}.{self.data_type}?&countrySet={self.country}&categorySet={self.poi_code}&ofs={ofset}&limit=100&key={self.key}"
+            search_request = self.s.get(url_petrol)
+            time.sleep(0.5)
+            try:
+                self.poi_results.extend(search_request.json()["results"])
+            except:
+                print("error at: " + str(ofset) + " trying again")
+                search_request = self.s.get(url_petrol)
+                time.sleep(0.5)
+                self.poi_results.extend(search_request.json()["results"])
+        return self.poi_results
 
 
     def get_total_for_brand(self, brand):
@@ -150,22 +174,23 @@ class TomTomApi():
         self.detailed_results[id] = search_requests.json()
 
 
-    def search_nearby(self, id, radius):
-        lat = self.results_dict[id]["position"]["lat"]
-        lon = self.results_dict[id]["position"]["lon"]
+    def search_nearby(self, radius, id, poi_dict):
+        lat = poi_dict[id]["position"]["lat"]
+        lon = poi_dict[id]["position"]["lon"]
         url = f"https://{self.base_url}/search/2/nearbySearch/.{self.data_type}?key={self.key}&lat={lat}&lon={lon}&radius={radius}"
         request = self.s.get(url)
         self.nearby_results[id]= request.json()
+        return  self.nearby_results
 
 
 
-    def search_all_nearbies(self, radius, ids):
+    def search_all_nearbies(self, radius, ids, poi_dict):
         n = 0
         for id in ids:
-            self.search_nearby(id, radius)
+            self.search_nearby(radius, id, poi_dict)
             time.sleep(0.5) 
             if n % 50 == 0:
-                print(f"Done {n} out of {len(self.results_dict)}")
+                print(f"Done {n} out of {len(poi_dict)}")
             n += 1
 
 
@@ -223,8 +248,7 @@ class TomTomApi():
 
 
     def get_charger_availability_for_one_poi_num(self, num):
-
-        charging_availability_id = self.results_dict[str(num)]["dataSources"]["chargingAvailability"]["id"]
+        charging_availability_id = self.results_dict[num]["dataSources"]["chargingAvailability"]["id"]
         url  = f"https://{self.base_url}/search/2/chargingAvailability.{self.data_type}?key={self.key}&chargingAvailability={charging_availability_id}"
         search_request = self.s.get(url)
         return search_request.json()
@@ -258,7 +282,7 @@ class TomTomApi():
                 search_request = self.s.get(url)
                 availability_data[id] = search_request.json()
             except KeyError:
-                print (f"No Charging Availability id for station with id {num}, moving to the next id")
+                print (f"No Charging Availability id for station with id {id}, moving to the next id")
                 continue
 
 
@@ -278,6 +302,87 @@ class TomTomApi():
                 print (f"No Charging Availability id for station with id {num}, moving to the next id")
                 continue
         return dictionary
+
+
+    def test_availability_of_each_poi(self, poi_results_filename, output_filename):
+        if os.path.exists(output_filename):
+            self.test_availability = ds.load_from_json(output_filename)
+        else:
+            self.test_availability = {}
+        pois_dict = ds.load_from_json(poi_results_filename)
+        for poi in pois_dict:
+
+            poi_id = poi["id"]
+            if poi_id not in self.test_availability:
+                try:
+                    charging_availability_id = poi["dataSources"]["chargingAvailability"]["id"]
+                    url  = f"https://{self.base_url}/search/2/chargingAvailability.{self.data_type}?key={self.key}&chargingAvailability={charging_availability_id}"
+                    search_request = self.s.get(url)
+                    if search_request.status_code == 403:
+                        print("Key not accepted, most likely out of transactions")
+                        ds.save_json(output_filename, self.test_availability)
+                        return self.test_availability
+                    else:
+                        self.test_availability[poi_id] = {"poi_id" : poi_id, "charging_availability_id" : charging_availability_id, "availability_data" :search_request.json()}
+                except KeyError:
+                    print (f"No Charging Availability id for station with id {poi_id}, moving to the next id")
+        ds.save_json(output_filename, self.test_availability)
+        return self.test_availability
+
+
+    def test_availability_of_each_poi_from_ids(self, poi_list, poi_dict, output_filename):
+        if os.path.exists(output_filename):
+            self.test_availability = ds.load_from_json(output_filename)
+        else:
+            self.test_availability = {}
+        for poi_id in poi_list:
+            if poi_id not in self.test_availability:
+                try:
+                    charging_availability_id = poi_dict[poi_id]["dataSources"]["chargingAvailability"]["id"]
+                    url  = f"https://{self.base_url}/search/2/chargingAvailability.{self.data_type}?key={self.key}&chargingAvailability={charging_availability_id}"
+                    search_request = self.s.get(url)
+                    if search_request.status_code == 403:
+                        print("Key not accepted, most likely out of transactions")
+                        ds.save_json(output_filename, self.test_availability)
+                        return self.test_availability
+                    else:
+                        self.test_availability[poi_id] = {"poi_id" : poi_id, "charging_availability_id" : charging_availability_id, "availability_data" :search_request.json()}
+                except KeyError:
+                    print (f"No Charging Availability id for station with id {poi_id}, moving to the next id")
+        ds.save_json(output_filename, self.test_availability)
+        return self.test_availability
+
+
+    def sort_availability_data(self, test_results):
+
+        state_of_chargers = {"working":{}, "unknown":{}, "out_of_service": {} }
+        chargers_data = {"types": state_of_chargers, "fully_working": []}
+
+        for poi in test_results:
+            connector_types = test_results[poi]["availability_data"]["connectors"]
+            all_types_work = True 
+            for connector in connector_types :
+                current_state = connector["availability"]["current"]
+                if current_state["available"] + current_state["occupied"] + current_state["reserved"] == 0:
+                    if current_state["unknown"] > 0:
+                        charger = {"id": poi, "type": connector["type"], "current_state": current_state, "charging_availability_id":  test_results[poi]["charging_availability_id"]}
+                        chargers_data["types"]["unknown"][poi] = charger
+                        all_types_work = False
+                    else:
+                        charger = {"id": poi, "type": connector["type"], "current_state": current_state, "charging_availability_id":  test_results[poi]["charging_availability_id"]}
+                        chargers_data["types"]["out_of_service"][poi] = charger
+                        all_types_work = False
+                else:
+                    charger = {"id": poi, "type": connector["type"], "current_state": current_state, "charging_availability_id":  test_results[poi]["charging_availability_id"]}
+                    chargers_data["types"]["working"][poi] = charger
+            if all_types_work:
+                chargers_data["fully_working"].append(poi)
+        self.chargers_data = chargers_data
+        return self.chargers_data
+        
+
+
+
 
 
 
@@ -307,7 +412,10 @@ class TomTomApi():
 
         self.total_by_brand = {}
 
-
+    def test_method(self, num):
+        answer = num * 2
+        self.test_answer = answer
+        return self.test_answer
 
 
     def index_to_ids(self, dictionary):
@@ -337,9 +445,6 @@ class TomTomApi():
         return parsed_results
 
 
-
-
-            
 
 
             

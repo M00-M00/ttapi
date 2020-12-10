@@ -60,6 +60,6 @@ def load_from_json(filename):
             json_data = json.load(j)
             return(json_data)
 
-def dictionary_from_dictionary_with_key(self, old_dict: dict, key: str) -> dict :
+def dictionary_from_dictionary_with_key(old_dict: dict, key) -> dict :
     new_dict = dict( [ (old_dict[a][key] , old_dict[a]) for a in old_dict] )
     return new_dict

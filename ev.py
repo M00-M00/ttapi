@@ -197,6 +197,21 @@ class EV_Search(TomTomApi):
                 print (f"No Charging Availability id for station with id {num}, moving to the next id")
                 continue
 
+        def get_charger_availability_by_availability_id(self, ids):
+            now = datetime.now()
+            time_now = now.strftime("%m/%d, %H:%M")
+            self.availability_data[time_now] ={}
+            availability_data = self.availability_data[time_now]
+            for id in ids:
+                try:
+                    charging_availability_id = id
+                    url  = f"https://{self.base_url}/search/2/chargingAvailability.json?key={self.key}&chargingAvailability={charging_availability_id}"
+                    search_request = self.s.get(url)
+                    availability_data[num] = search_request.json()
+                except KeyError:
+                    print (f"No Charging Availability id for station with id {num}, moving to the next id")
+                    continue
+
 
     
     def get_charger_availability_by_index_key(self, numbers, dictionary):
